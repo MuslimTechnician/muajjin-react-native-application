@@ -1,19 +1,25 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import HomeScreen from '../pages/HomeScreen';
 import SettingsScreen from '../pages/SettingsScreen';
 
-type tabs = 'home' | 'settings';
+type tabs = 'Home' | 'Settings' | 'About';
 
 export default function AppNavigation() {
-  const [tab, setTab] = React.useState<tabs>('home');
+  const [tab, setTab] = React.useState<tabs>('Home');
 
   const renderScreen = () => {
     switch (tab) {
-      case 'home':
+      case 'Home':
         return <HomeScreen />;
-      case 'settings':
+      case 'Settings':
         return <SettingsScreen />;
+      case 'About':
+        return (
+          <View>
+            <Text>Coming Soon!</Text>
+          </View>
+        );
     }
   };
 
@@ -21,8 +27,15 @@ export default function AppNavigation() {
     <View style={styles.container}>
       <View style={styles.content}>{renderScreen()}</View>
       <View style={styles.tab}>
-        <Text onPress={() => setTab('home')}>Home</Text>
-        <Text onPress={() => setTab('settings')}>Settings</Text>
+        {(['Home', 'Settings', 'About'] as tabs[]).map(currentTab => (
+          <TouchableOpacity
+            style={styles.tabStyle}
+            onPress={() => setTab(currentTab)}>
+            <Text style={tab === currentTab && styles.selectedTab}>
+              {currentTab}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );
@@ -39,4 +52,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
+  tabStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  selectedTab: {color: '#36967a'},
 });

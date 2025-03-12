@@ -29,6 +29,7 @@ export default function AppNavigation() {
       <View style={styles.tab}>
         {(['Home', 'Settings', 'About'] as tabs[]).map(currentTab => (
           <TouchableOpacity
+            key={currentTab}
             style={styles.tabStyle}
             onPress={() => setTab(currentTab)}>
             <Text style={tab === currentTab && styles.selectedTab}>
